@@ -61,7 +61,7 @@ export default function Filters({
             onChange={e => setLeaves(e.target.value)} 
             className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-leaf-300"
           >
-            {leafOpts.map(s => <option key={s} value={s}>{s === 'All' ? 'All levels' : `${s} Leaf${s === '1' ? '' : 'ves'}`}</option>)}
+            {leafOpts.map(s => <option key={s} value={s}>{s === 'All' ? 'All levels' : `${s} ${s === '1' ? 'Leaf' : 'Leaves'}`}</option>)}
           </select>
         </div>
         <div>
