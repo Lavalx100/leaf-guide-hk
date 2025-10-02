@@ -1,5 +1,6 @@
+import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom'
 import { useMemo, useState } from 'react'
-import { BarChart3, FileText } from 'lucide-react'
+import { BarChart3, FileText, Grid3X3, Grid2X2 } from 'lucide-react'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import Filters from './components/Filters.jsx'
@@ -7,31 +8,29 @@ import BusinessCard from './components/BusinessCardSimple.jsx'
 import References from './components/References.jsx'
 import CriteriaPage from './components/CriteriaPage.jsx'
 import RestaurantDetail from './components/RestaurantDetailProfessional.jsx'
+import AboutPage from './components/AboutPage.jsx'
+import ServicesPage from './components/ServicesPage.jsx'
+import ItineraryPlanner from './components/ItineraryPlanner.jsx'
 import { BUSINESSES } from './data.js'
 
-export default function App() {
+function HomePage() {
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [sector, setSector] = useState('All')
   const [leaves, setLeaves] = useState('All')
-  const [confidence, setConfidence] = useState('All')
-  const [badge, setBadge] = useState('All')
   const [sort, setSort] = useState('score-desc')
-  const [showReferences, setShowReferences] = useState(false)
-  const [currentPage, setCurrentPage] = useState('home') // 'home', 'criteria', or 'restaurant'
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null)
+  const [viewMode, setViewMode] = useState('3') // '2' or '3' columns
 
   const filtered = useMemo(() => {
     let list = BUSINESSES.slice()
 
     if (sector !== 'All') list = list.filter(b => b.sector === sector)
     if (leaves !== 'All') list = list.filter(b => String(b.leaves) === leaves)
-    if (confidence !== 'All') list = list.filter(b => b.confidence === confidence)
-    if (badge !== 'All') list = list.filter(b => b.badges.includes(badge))
 
     const q = query.trim().toLowerCase()
     if (q) {
       list = list.filter(b => [
-        b.name, b.sector, b.district, b.confidence, 
+        b.name, b.sector, b.district, 
         b.badges.join(' '), b.evidence.join(' '), 
         b.keyEvidence, b.notes || ''
       ].join(' ').toLowerCase().includes(q))
@@ -46,14 +45,12 @@ export default function App() {
         list.sort((a,b) => b.name.localeCompare(a.name)); break
       case 'sector':
         list.sort((a,b) => a.sector.localeCompare(b.sector) || b.total - a.total); break
-      case 'confidence':
-        const confidenceOrder = { 'High': 3, 'Medium': 2, 'Low': 1 }
-        list.sort((a,b) => confidenceOrder[b.confidence] - confidenceOrder[a.confidence] || b.total - a.total); break
+
       default:
         list.sort((a,b) => b.total - a.total); break
     }
     return list
-  }, [query, sector, leaves, confidence, badge, sort])
+  }, [query, sector, leaves, sort])
 
   const stats = useMemo(() => {
     const total = filtered.length
@@ -65,128 +62,158 @@ export default function App() {
       acc[b.leaves] = (acc[b.leaves] || 0) + 1
       return acc
     }, {})
-    const byConfidence = filtered.reduce((acc, b) => {
-      acc[b.confidence] = (acc[b.confidence] || 0) + 1
-      return acc
-    }, {})
+
     const avgScore = total > 0 ? Math.round(filtered.reduce((sum, b) => sum + b.total, 0) / total) : 0
     
-    return { total, bySector, byLeaves, byConfidence, avgScore }
+    return { total, bySector, byLeaves, avgScore }
   }, [filtered])
 
   const openRestaurantDetail = (restaurantId) => {
-    setSelectedRestaurantId(restaurantId)
-    setCurrentPage('restaurant')
-  }
-
-  const closeRestaurantDetail = () => {
-    setSelectedRestaurantId(null)
-    setCurrentPage('home')
+    navigate(`/business/${restaurantId}`)
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50">
-      <Header />
-      <main className="flex-1">
-        {currentPage === 'home' ? (
-          <section className="mx-auto max-w-7xl px-4 pt-6 pb-8">
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold tracking-tight text-neutral-900 mb-2">
-                Hong Kong Sustainable Hospitality Guide
-              </h2>
-              <p className="text-neutral-600 text-lg leading-relaxed max-w-4xl mb-4">
-                A transparent rating system for sustainable hospitality in Hong Kong. Based on evidence-backed 
-                assessment across 10 equal criteria, aligned with GSTC standards and UN SDGs. Each venue is rated 
-                on a 3-leaf scale with detailed transparency and confidence indicators.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setCurrentPage('criteria')}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-leaf-600 text-white rounded-lg hover:bg-leaf-700 transition-colors font-medium"
-                >
-                  <BarChart3 size={16} />
-                  View Scoring Criteria
-                </button>
-                <button
-                  onClick={() => setShowReferences(!showReferences)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg border border-neutral-200 hover:bg-neutral-200 transition-colors font-medium"
-                >
-                  <FileText size={16} />
-                  {showReferences ? 'Hide' : 'View all'} sources & references
-                </button>
-              </div>
-            </div>
+    <section className="mx-auto max-w-7xl px-4 pt-6 pb-8">
+      <div className="mb-6">
+        <h2 className="text-3xl font-bold tracking-tight text-neutral-900 mb-2">
+          Hong Kong Sustainable Hospitality Guide
+        </h2>
+      </div>
 
-            {showReferences && (
-              <div className="mb-8">
-                <References />
-              </div>
-            )}
-            
-            <Filters
-              query={query} setQuery={setQuery}
-              sector={sector} setSector={setSector}
-              leaves={leaves} setLeaves={setLeaves}
-              confidence={confidence} setConfidence={setConfidence}
-              badge={badge} setBadge={setBadge}
-              sort={sort} setSort={setSort}
-            />
-            
-            {/* Summary stats */}
-            <div className="mt-6 bg-white rounded-2xl shadow-soft border border-neutral-200 p-6">
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
-                <div>
-                  <div className="text-2xl font-bold text-neutral-900">{stats.total}</div>
-                  <div className="text-sm text-neutral-600">Venues</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-leaf-700">{stats.avgScore}</div>
-                  <div className="text-sm text-neutral-600">Avg Score</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-neutral-900">{stats.byLeaves[3] || 0}</div>
-                  <div className="text-sm text-neutral-600">3 Leaves</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-neutral-900">{stats.byLeaves[2] || 0}</div>
-                  <div className="text-sm text-neutral-600">2 Leaves</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-green-600">{stats.byConfidence.High || 0}</div>
-                  <div className="text-sm text-neutral-600">High Confidence</div>
-                </div>
-              </div>
-            </div>
 
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {filtered.map(b => <BusinessCard key={b.id} b={b} onViewDetails={() => openRestaurantDetail(b.id)} />)}
-            </div>
-            
-            <div className="mt-8 text-sm text-neutral-500 space-y-2">
-              <div>
-                Showing {stats.total} result(s). By sector:{" "}
-                {Object.entries(stats.bySector).map(([k,v]) => 
-                  <span key={k} className="mr-3 font-medium">{k}: {v}</span>
-                )}
-              </div>
-              <div>
-                By confidence:{" "}
-                {Object.entries(stats.byConfidence).map(([k,v]) => 
-                  <span key={k} className="mr-3 font-medium">{k}: {v}</span>
-                )}
-              </div>
-            </div>
-          </section>
-        ) : currentPage === 'criteria' ? (
-          <CriteriaPage onClose={() => setCurrentPage('home')} />
-        ) : (
-          <RestaurantDetail 
-            restaurantId={selectedRestaurantId} 
-            onClose={closeRestaurantDetail}
-          />
-        )}
-      </main>
-      <Footer />
-    </div>
+      
+      <Filters
+        query={query} setQuery={setQuery}
+        sector={sector} setSector={setSector}
+        leaves={leaves} setLeaves={setLeaves}
+      />
+      
+      {/* Sort by and View Mode Toggle */}
+      <div className="flex items-center justify-between mt-6 mb-4">
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-neutral-600">Sort by:</span>
+          <select 
+            value={sort} 
+            onChange={e => setSort(e.target.value)} 
+            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-leaf-300"
+          >
+            <option value="score-desc">Score high to low</option>
+            <option value="score-asc">Score low to high</option>
+            <option value="name-asc">Name A to Z</option>
+            <option value="name-desc">Name Z to A</option>
+            <option value="sector">Sector</option>
+          </select>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-neutral-600">View:</span>
+          <div className="flex rounded-lg border border-neutral-200 overflow-hidden">
+            <button
+              onClick={() => setViewMode('2')}
+              className={`px-3 py-2 text-sm font-medium transition-colors ${
+                viewMode === '2' 
+                  ? 'bg-leaf-600 text-white' 
+                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              <Grid2X2 size={16} />
+            </button>
+            <button
+              onClick={() => setViewMode('3')}
+              className={`px-3 py-2 text-sm font-medium transition-colors ${
+                viewMode === '3' 
+                  ? 'bg-leaf-600 text-white' 
+                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              <Grid3X3 size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div className={`grid gap-6 ${
+        viewMode === '3' 
+          ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' 
+          : 'grid-cols-1 lg:grid-cols-2'
+      }`}>
+        {filtered.map(b => <BusinessCard key={b.id} b={b} onViewDetails={() => openRestaurantDetail(b.id)} />)}
+      </div>
+      
+      <div className="mt-8 text-sm text-neutral-500 space-y-2">
+        <div>
+          Showing {stats.total} result(s). By sector:{" "}
+          {Object.entries(stats.bySector).map(([k,v]) => 
+            <span key={k} className="mr-3 font-medium">{k}: {v}</span>
+          )}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+function BusinessDetailPage() {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  
+  return (
+    <RestaurantDetail 
+      restaurantId={id} 
+      onClose={() => navigate('/')}
+    />
+  )
+}
+
+function CriteriaPageRoute() {
+  const navigate = useNavigate()
+  
+  return (
+    <CriteriaPage onClose={() => navigate('/')} />
+  )
+}
+
+function AboutPageRoute() {
+  const navigate = useNavigate()
+  
+  return (
+    <AboutPage onClose={() => navigate('/')} />
+  )
+}
+
+function ServicesPageRoute() {
+  const navigate = useNavigate()
+  
+  return (
+    <ServicesPage onClose={() => navigate('/')} />
+  )
+}
+
+function ItineraryPlannerRoute() {
+  const navigate = useNavigate()
+  
+  return (
+    <ItineraryPlanner onClose={() => navigate('/')} />
+  )
+}
+
+export default function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col bg-neutral-50">
+        <Header />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/criteria" element={<CriteriaPageRoute />} />
+            <Route path="/services" element={<ServicesPageRoute />} />
+            <Route path="/itinerary" element={<ItineraryPlannerRoute />} />
+            <Route path="/about" element={<AboutPageRoute />} />
+            <Route path="/business/:id" element={<BusinessDetailPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   )
 }

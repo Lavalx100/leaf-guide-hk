@@ -1,6 +1,7 @@
-import { Leaf, MapPin, ArrowRight, FileText } from 'lucide-react'
+import { Leaf, MapPin, ArrowRight, Building2 } from 'lucide-react'
 import clsx from 'clsx'
 import { LEAF_TIERS } from '../data.js'
+import { getBusinessImage } from '../utils/images.js'
 
 function LeafIcons({ leaves }) {
   return (
@@ -15,78 +16,53 @@ function LeafIcons({ leaves }) {
   )
 }
 
-function ConfidenceBadge({ confidence }) {
-  const colors = {
-    'High': 'bg-green-100 text-green-800 border-green-200',
-    'Medium': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'Low': 'bg-red-100 text-red-800 border-red-200'
-  }
-  
-  return (
-    <span className={clsx('px-2 py-0.5 rounded-full text-xs font-medium border', colors[confidence])}>
-      {confidence} confidence
-    </span>
-  )
-}
-
 export default function BusinessCard({ b, onViewDetails }) {
   const leafTier = LEAF_TIERS[b.leaves]
+  const businessImage = getBusinessImage(b.id)
   
   return (
-    <div className="bg-white rounded-2xl shadow-soft border border-neutral-200 overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-2xl shadow-soft border border-neutral-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={onViewDetails}>
+      {/* Business Image */}
+      <div className="h-48 overflow-hidden">
+        {businessImage ? (
+          <img 
+            src={businessImage} 
+            alt={b.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="h-full bg-gradient-to-br from-leaf-100 to-leaf-200 flex items-center justify-center">
+            <Building2 className="w-16 h-16 text-leaf-600 opacity-60" />
+          </div>
+        )}
+      </div>
+      
       <div className="p-6">
         {/* Header */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="shrink-0 rounded-xl bg-leaf-50 p-3 border border-leaf-100">
-            <Leaf className="w-6 h-6 text-leaf-700" />
+        <div className="mb-4">
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="text-lg font-semibold leading-tight">{b.name}</h3>
+            <div className="flex items-center gap-2">
+              <LeafIcons leaves={b.leaves} />
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <h3 className="text-lg font-semibold leading-tight">{b.name}</h3>
-              <div className="flex items-center gap-2">
-                <LeafIcons leaves={b.leaves} />
-                <span className="text-sm font-medium text-leaf-700">{leafTier.name}</span>
-              </div>
-            </div>
-            
-            <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-600 mb-3">
-              <span className="px-2 py-1 rounded-full bg-neutral-100 border border-neutral-200 font-medium">{b.sector}</span>
-              <span className="inline-flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5" /> 
-                {b.district}
-              </span>
-              <span className="font-medium">Score {b.total}/100</span>
-              <ConfidenceBadge confidence={b.confidence} />
-            </div>
-
-            {/* Key Evidence */}
-            <div className="mb-4 p-3 bg-neutral-50 rounded-lg border border-neutral-200">
-              <div className="text-xs text-neutral-500 uppercase font-medium mb-1">Key Evidence</div>
-              <p className="text-sm text-neutral-700 leading-relaxed">{b.keyEvidence}</p>
-            </div>
-
-            {/* Badges */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {b.badges.map(badge => (
-                <span 
-                  key={badge} 
-                  className="bg-leaf-100 text-leaf-800 border border-leaf-200 text-xs px-2 py-1 rounded-full font-medium"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-
-            {/* View Details Button */}
-            <button
-              onClick={onViewDetails}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-leaf-600 text-white rounded-lg hover:bg-leaf-700 transition-colors font-medium"
-            >
-              <FileText size={16} />
-              View Full Details & Scoring
-              <ArrowRight size={16} />
-            </button>
+          
+          <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-600 mb-4">
+            <span className="px-2 py-1 rounded-full bg-neutral-100 border border-neutral-200 font-medium">{b.sector}</span>
+            <span className="inline-flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5" /> 
+              {b.district}
+            </span>
           </div>
+
+          {/* View Details Button */}
+          <button
+            onClick={onViewDetails}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-leaf-600 text-white rounded-lg hover:bg-leaf-700 transition-colors font-medium"
+          >
+            View Details
+            <ArrowRight size={16} />
+          </button>
         </div>
       </div>
     </div>

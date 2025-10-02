@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { CRITERIA, LEAF_TIERS } from '../data.js';
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, FileText } from 'lucide-react';
+import References from './References.jsx';
 
 const CriteriaPage = ({ onClose }) => {
   const [expandedCriterion, setExpandedCriterion] = useState(null);
+  const [showReferences, setShowReferences] = useState(false);
 
   const toggleCriterion = (key) => {
     setExpandedCriterion(expandedCriterion === key ? null : key);
@@ -34,9 +36,18 @@ const CriteriaPage = ({ onClose }) => {
               onClick={onClose} 
               className="h-6 w-6 cursor-pointer hover:text-green-200 transition-colors"
             />
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">■</span>
-              <h2 className="text-xl font-bold">Leaf Guide Sustainability Scoring Criteria</h2>
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">■</span>
+                <h2 className="text-xl font-bold">Leaf Guide Sustainability Scoring Criteria</h2>
+              </div>
+              <button
+                onClick={() => setShowReferences(!showReferences)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors font-medium"
+              >
+                <FileText size={16} />
+                {showReferences ? 'Hide' : 'View'} Sources & References
+              </button>
             </div>
           </div>
         </div>
@@ -189,6 +200,13 @@ const CriteriaPage = ({ onClose }) => {
               </div>
             </div>
           </div>
+
+          {/* References Section */}
+          {showReferences && (
+            <div className="mt-8 pt-8 border-t border-gray-300">
+              <References />
+            </div>
+          )}
 
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-300 text-center">
