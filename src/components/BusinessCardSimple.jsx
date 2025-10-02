@@ -1,7 +1,7 @@
 import { Leaf, MapPin, ArrowRight, Building2 } from 'lucide-react'
 import clsx from 'clsx'
 import { LEAF_TIERS } from '../data.js'
-import { getBusinessImage } from '../utils/images.js'
+import { getBusinessImage, handleImageError } from '../utils/images.js'
 
 function LeafIcons({ leaves }) {
   return (
@@ -23,13 +23,23 @@ export default function BusinessCard({ b, onViewDetails }) {
   return (
     <div className="bg-white rounded-2xl shadow-soft border border-neutral-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={onViewDetails}>
       {/* Business Image */}
-      <div className="h-48 overflow-hidden">
+      <div className="h-48 overflow-hidden relative">
         {businessImage ? (
-          <img 
-            src={businessImage} 
-            alt={b.name}
-            className="w-full h-full object-cover"
-          />
+          <>
+            <img 
+              src={businessImage} 
+              alt={b.name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // Hide the broken image and show fallback
+                e.target.style.display = 'none';
+                e.target.nextElementSibling.style.display = 'flex';
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-leaf-100 to-leaf-200 items-center justify-center hidden">
+              <Building2 className="w-16 h-16 text-leaf-600 opacity-60" />
+            </div>
+          </>
         ) : (
           <div className="h-full bg-gradient-to-br from-leaf-100 to-leaf-200 flex items-center justify-center">
             <Building2 className="w-16 h-16 text-leaf-600 opacity-60" />

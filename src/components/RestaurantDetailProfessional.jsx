@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Leaf, MapPin, ExternalLink, Phone, Globe, Facebook, Instagram, Twitter, ChevronDown, ChevronUp, Building2, TrendingUp, CheckCircle } from 'lucide-react';
 import { BUSINESSES, CRITERIA, LEAF_TIERS } from '../data.js';
+import { getBusinessImage } from '../utils/images.js';
 import clsx from 'clsx';
 
 function LeafIcons({ leaves }) {
@@ -141,7 +142,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: '17 Science Museum Road, Tsim Sha Tsui East, Kowloon, Hong Kong',
         phone: '+852 3400 1000',
         website: 'https://www.hotel-icon.com',
-        image: '/src/assets/images/hotel-icon.jpg',
         social: {
           facebook: 'https://www.facebook.com/HotelICON'
         },
@@ -151,7 +151,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: '8 Finance Street, Central, Hong Kong',
         phone: '+852 3196 8888',
         website: 'https://www.fourseasons.com/hongkong',
-        image: '/src/assets/images/four-seasons.jpg',
         social: {
           facebook: 'https://www.facebook.com/FourSeasonsHongKong'
         },
@@ -161,7 +160,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: 'Salisbury Road, Tsim Sha Tsui, Kowloon, Hong Kong',
         phone: '+852 2920 2888',
         website: 'https://www.peninsula.com/hong-kong',
-        image: '/src/assets/images/peninsula.jpg',
         social: {
           facebook: 'https://www.facebook.com/ThePeninsulaHongKong'
         },
@@ -171,7 +169,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: '18 Salisbury Road, Tsim Sha Tsui, Kowloon, Hong Kong',
         phone: '+852 3891 8888',
         website: 'https://www.rosewoodhotels.com/hongkong',
-        image: '/src/assets/images/rosewood.jpg',
         social: {
           instagram: '@rosewoodhk'
         },
@@ -181,7 +178,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: 'Multiple locations across Hong Kong',
         phone: '+852 5705 5388',
         website: 'https://ovolohotels.com',
-        image: '/src/assets/images/ovolo.jpg',
         social: {
           facebook: 'https://www.facebook.com/OvoloHotels',
           instagram: '@ovolohotels'
@@ -192,7 +188,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: '8 Yeung Uk Road, Tsuen Wan, New Territories, Hong Kong',
         phone: '+852 2280 2898',
         website: 'https://www.ninahotelgroup.com',
-        image: '/src/assets/images/nina.jpg',
         social: {
           facebook: 'https://www.facebook.com/NinaHotelGroup'
         },
@@ -202,7 +197,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: '7/F, The Landmark Mandarin Oriental, 15 Queen\'s Road Central, Hong Kong',
         phone: '+852 2132 0066',
         website: 'https://www.mandarinoriental.com/en/hong-kong/the-landmark/dine/amber',
-        image: '/src/assets/images/amber.jpg',
         social: {
           instagram: '@amberrestaurant'
         },
@@ -212,7 +206,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: 'UG/F, Causeway Bay Plaza 2, 463-483 Lockhart Road, Causeway Bay, Hong Kong',
         phone: '+852 2817 8383',
         website: 'https://www.roganic.com.hk',
-        image: '/src/assets/images/roganic.jpg',
         social: {
           facebook: 'https://www.facebook.com/RoganicHK',
           instagram: '@roganic_hk'
@@ -223,7 +216,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: 'G/F, 5-6 Wing Fung Street, Wan Chai, Hong Kong',
         phone: '+852 9726 9301',
         website: 'https://www.mono.hk',
-        image: '/src/assets/images/mono.jpg',
         social: {
           instagram: '@mono.hk'
         },
@@ -233,7 +225,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
         address: 'G/F, 1-5 Wan Chai Road, Wan Chai, Hong Kong',
         phone: '+852 2386 8933',
         website: 'https://thebakerandthebottleman.hk',
-        image: '/src/assets/images/baker-bottleman.jpg',
         social: {
           instagram: '@bakerbottlemanhk'
         },
@@ -270,13 +261,27 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
           <div className="grid lg:grid-cols-2 gap-8 p-8">
             {/* Left: Image Placeholder */}
             <div className="relative">
-              <div className="aspect-[4/3] rounded-xl border border-leaf-300 overflow-hidden">
-                {businessData.image ? (
-                  <img 
-                    src={businessData.image} 
-                    alt={restaurant.name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="aspect-[4/3] rounded-xl border border-leaf-300 overflow-hidden relative">
+                {getBusinessImage(restaurant.id) ? (
+                  <>
+                    <img 
+                      src={getBusinessImage(restaurant.id)} 
+                      alt={restaurant.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Hide the broken image and show fallback
+                        e.target.style.display = 'none';
+                        e.target.nextElementSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-leaf-100 to-leaf-200 items-center justify-center hidden">
+                      <div className="text-center text-leaf-700">
+                        <Building2 size={64} className="mx-auto mb-4 opacity-60" />
+                        <div className="text-xl font-bold mb-1">{restaurant.name}</div>
+                        <div className="text-sm opacity-75">{restaurant.sector} • {restaurant.district}</div>
+                      </div>
+                    </div>
+                  </>
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-leaf-100 to-leaf-200 flex items-center justify-center">
                     <div className="text-center text-leaf-700">
