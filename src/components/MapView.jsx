@@ -19,24 +19,24 @@ L.Icon.Default.mergeOptions({
 const getSectorIcon = (sector) => {
   const icons = {
     'Hotel': { 
-      icon: '/src/assets/Symbols/hotel.png', 
+      icon: 'https://iili.io/K6JuZP4.png', 
       color: '#3b82f6' 
     },
     'Restaurant': { 
-      icon: '/src/assets/Symbols/restaurant.png', 
+      icon: 'https://iili.io/K6JuQVf.png', 
       color: '#ef4444' 
     },
     'Bakery': { 
-      icon: '/src/assets/Symbols/bakery.png', 
+      icon: 'https://iili.io/K6Jubl2.md.png', 
       color: '#f59e0b' 
     },
     'Cafe': { 
-      icon: '/src/assets/Symbols/cafe.png', 
+      icon: 'https://iili.io/K6JuDKl.png', 
       color: '#8b5cf6' 
     }
   };
   return icons[sector] || { 
-    icon: '/src/assets/Symbols/restaurant.png', 
+    icon: 'https://iili.io/K6JuQVf.png', 
     color: '#6b7280' 
   };
 };
@@ -181,19 +181,19 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-[#3b82f6] flex items-center justify-center">
-              <img src="/src/assets/Symbols/hotel.png" alt="Hotel" className="w-4 h-4 brightness-0 invert" />
+              <img src="https://iili.io/K6JuZP4.png" alt="Hotel" className="w-4 h-4 brightness-0 invert" />
             </div>
             <span className="text-xs text-gray-600">Hotel</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-[#ef4444] flex items-center justify-center">
-              <img src="/src/assets/Symbols/restaurant.png" alt="Restaurant" className="w-4 h-4 brightness-0 invert" />
+              <img src="https://iili.io/K6JuQVf.png" alt="Restaurant" className="w-4 h-4 brightness-0 invert" />
             </div>
             <span className="text-xs text-gray-600">Restaurant</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-[#f59e0b] flex items-center justify-center">
-              <img src="/src/assets/Symbols/bakery.png" alt="Bakery" className="w-4 h-4 brightness-0 invert" />
+              <img src="https://iili.io/K6Jubl2.md.png" alt="Bakery" className="w-4 h-4 brightness-0 invert" />
             </div>
             <span className="text-xs text-gray-600">Bakery</span>
           </div>
