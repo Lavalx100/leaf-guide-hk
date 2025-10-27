@@ -24,7 +24,16 @@ export default function Footer() {
               Standards
             </h4>
             <div className="space-y-2 text-sm text-neutral-600">
-              <div>GSTC Hotel Standards</div>
+              <div>
+                <a 
+                  href="https://www.gstc.org/gstc-criteria/gstc-industry-criteria-for-hotels/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-leaf-700 hover:text-leaf-800 hover:underline"
+                >
+                  GSTC Hotel Standards
+                </a>
+              </div>
               <div>UN SDGs 6, 7, 8, 12, 13, 14, 15</div>
               <div>Evidence-based methodology</div>
               <div>36-month verification cycle</div>

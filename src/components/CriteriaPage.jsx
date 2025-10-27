@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CRITERIA, LEAF_TIERS } from '../data.js';
-import { ChevronDown, ChevronUp, X, FileText } from 'lucide-react';
+import { ChevronDown, ChevronUp, FileText, Leaf } from 'lucide-react';
 import References from './References.jsx';
 
 const CriteriaPage = ({ onClose }) => {
@@ -27,33 +27,35 @@ const CriteriaPage = ({ onClose }) => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-t-lg">
-          <div className="flex items-center gap-3">
-            <X 
-              onClick={onClose} 
-              className="h-6 w-6 cursor-pointer hover:text-green-200 transition-colors"
-            />
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">■</span>
-                <h2 className="text-xl font-bold">Leaf Guide Sustainability Scoring Criteria</h2>
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-green-600 to-green-700 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+                <Leaf className="w-8 h-8" />
               </div>
-              <button
-                onClick={() => setShowReferences(!showReferences)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors font-medium"
-              >
-                <FileText size={16} />
-                {showReferences ? 'Hide' : 'View'} Sources & References
-              </button>
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Sustainability Scoring Criteria</h1>
+                <p className="text-green-100 text-lg">Evidence-based assessment across 10 equal criteria</p>
+              </div>
             </div>
+            <button
+              onClick={() => setShowReferences(!showReferences)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-lg hover:bg-green-50 transition-colors font-semibold shadow-lg"
+            >
+              <FileText size={20} />
+              {showReferences ? 'Hide' : 'View'} Sources & References
+            </button>
           </div>
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Overview Section */}
-        <div className="p-8 border-b border-gray-200">
+        <div className="mb-12">
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-leaf-dark mb-2">10</div>
@@ -87,14 +89,14 @@ const CriteriaPage = ({ onClose }) => {
         </div>
 
         {/* Criteria Details */}
-        <div className="p-8">
-          <h3 className="text-xl font-bold mb-6 text-gray-900">Detailed Criteria Breakdown</h3>
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-gray-900">Detailed Criteria Breakdown</h2>
           <div className="space-y-4">
             {CRITERIA.map((criterion, index) => (
-              <div key={criterion.key} className="border border-gray-200 rounded-lg overflow-hidden">
+              <div key={criterion.key} className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
                 <button
                   onClick={() => toggleCriterion(criterion.key)}
-                  className="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                  className="w-full px-6 py-5 text-left bg-gradient-to-r from-gray-50 to-white hover:from-gray-100 hover:to-gray-50 transition-all flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-semibold text-green-600 bg-green-100 px-2 py-1 rounded">
@@ -203,13 +205,15 @@ const CriteriaPage = ({ onClose }) => {
 
           {/* References Section */}
           {showReferences && (
-            <div className="mt-8 pt-8 border-t border-gray-300">
+            <div className="mt-12 pt-8 border-t-2 border-gray-200">
               <References />
             </div>
           )}
+        </div>
 
-          {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-gray-300 text-center">
+        {/* Footer */}
+        <div className="bg-gray-50 border-t border-gray-200 mt-16">
+          <div className="max-w-7xl mx-auto px-6 py-8 text-center">
             <p className="text-sm text-gray-600 mb-2">
               Built for Hong Kong's hospitality industry • Updated September 2025
             </p>
