@@ -1,4 +1,4 @@
-import { Leaf, MapPin, Award, BarChart3, Info, Briefcase, Calendar } from 'lucide-react'
+import { Leaf, MapPin, BarChart3, Info, Briefcase, Calendar } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function Header() {
@@ -15,7 +15,6 @@ export default function Header() {
             >
               <div className="relative">
                 <Leaf className="w-8 h-8 text-leaf-700" />
-                <Award className="w-4 h-4 text-leaf-600 absolute -top-1 -right-1" />
               </div>
               <div>
                 <h1 className="text-xl font-bold tracking-tight text-neutral-900">Leaf Guide HK</h1>

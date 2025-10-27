@@ -93,20 +93,22 @@ function HomePage() {
       
       {/* Sort by and View Mode Toggle */}
       <div className="flex items-center justify-between mt-6 mb-4 flex-wrap gap-4">
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-neutral-600">Sort by:</span>
-          <select 
-            value={sort} 
-            onChange={e => setSort(e.target.value)} 
-            className="rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-leaf-300"
-          >
-            <option value="score-desc">Score high to low</option>
-            <option value="score-asc">Score low to high</option>
-            <option value="name-asc">Name A to Z</option>
-            <option value="name-desc">Name Z to A</option>
-            <option value="sector">Sector</option>
-          </select>
-        </div>
+        {displayMode === 'list' && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-neutral-600">Sort by:</span>
+            <select 
+              value={sort} 
+              onChange={e => setSort(e.target.value)} 
+              className="rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-leaf-300"
+            >
+              <option value="score-desc">Score high to low</option>
+              <option value="score-asc">Score low to high</option>
+              <option value="name-asc">Name A to Z</option>
+              <option value="name-desc">Name Z to A</option>
+              <option value="sector">Sector</option>
+            </select>
+          </div>
+        )}
         
         <div className="flex items-center gap-4">
           {/* Display Mode Toggle */}
