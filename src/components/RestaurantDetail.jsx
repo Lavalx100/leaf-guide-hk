@@ -305,7 +305,6 @@ const RestaurantDetail = ({ restaurantId, onClose }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -56,3 +56,37 @@
     text-wrap: balance;
   }
 }
+
+/* Custom Leaflet Map Styles */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  min-width: 200px;
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.custom-popup .leaflet-popup-close-button {
+  font-size: 24px;
+  padding: 4px 8px;
+  color: #6b7280;
+}
+
+.custom-popup .leaflet-popup-close-button:hover {
+  color: #374151;
+}

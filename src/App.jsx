@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom'
 import { useMemo, useState } from 'react'
-import { BarChart3, FileText, Grid3X3, Grid2X2 } from 'lucide-react'
+import { BarChart3, FileText, Grid3X3, Grid2X2, Map, List } from 'lucide-react'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import Filters from './components/Filters.jsx'
 import BusinessCard from './components/BusinessCardSimple.jsx'
+import MapView from './components/MapView.jsx'
 import References from './components/References.jsx'
 import CriteriaPage from './components/CriteriaPage.jsx'
 import RestaurantDetail from './components/RestaurantDetailProfessional.jsx'
@@ -20,6 +21,8 @@ function HomePage() {
   const [leaves, setLeaves] = useState('All')
   const [sort, setSort] = useState('score-desc')
   const [viewMode, setViewMode] = useState('3') // '2' or '3' columns
+  const [displayMode, setDisplayMode] = useState('list') // 'list' or 'map'
+  const [selectedBusiness, setSelectedBusiness] = useState(null)
 
   const filtered = useMemo(() => {
     let list = BUSINESSES.slice()
@@ -89,7 +92,7 @@ function HomePage() {
       />
       
       {/* Sort by and View Mode Toggle */}
-      <div className="flex items-center justify-between mt-6 mb-4">
+      <div className="flex items-center justify-between mt-6 mb-4 flex-wrap gap-4">
         <div className="flex items-center gap-3">
           <span className="text-sm text-neutral-600">Sort by:</span>
           <select 
@@ -105,40 +108,85 @@ function HomePage() {
           </select>
         </div>
         
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-neutral-600">View:</span>
-          <div className="flex rounded-lg border border-neutral-200 overflow-hidden">
-            <button
-              onClick={() => setViewMode('2')}
-              className={`px-3 py-2 text-sm font-medium transition-colors ${
-                viewMode === '2' 
-                  ? 'bg-leaf-600 text-white' 
-                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
-              }`}
-            >
-              <Grid2X2 size={16} />
-            </button>
-            <button
-              onClick={() => setViewMode('3')}
-              className={`px-3 py-2 text-sm font-medium transition-colors ${
-                viewMode === '3' 
-                  ? 'bg-leaf-600 text-white' 
-                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
-              }`}
-            >
-              <Grid3X3 size={16} />
-            </button>
+        <div className="flex items-center gap-4">
+          {/* Display Mode Toggle */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-neutral-600">Display:</span>
+            <div className="flex rounded-lg border border-neutral-200 overflow-hidden">
+              <button
+                onClick={() => setDisplayMode('list')}
+                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1 ${
+                  displayMode === 'list' 
+                    ? 'bg-leaf-600 text-white' 
+                    : 'bg-white text-neutral-700 hover:bg-neutral-50'
+                }`}
+              >
+                <List size={16} />
+                <span className="hidden sm:inline">List</span>
+              </button>
+              <button
+                onClick={() => setDisplayMode('map')}
+                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1 ${
+                  displayMode === 'map' 
+                    ? 'bg-leaf-600 text-white' 
+                    : 'bg-white text-neutral-700 hover:bg-neutral-50'
+                }`}
+              >
+                <Map size={16} />
+                <span className="hidden sm:inline">Map</span>
+              </button>
+            </div>
           </div>
+          
+          {/* Grid View Toggle (only show in list mode) */}
+          {displayMode === 'list' && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-neutral-600">View:</span>
+              <div className="flex rounded-lg border border-neutral-200 overflow-hidden">
+                <button
+                  onClick={() => setViewMode('2')}
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    viewMode === '2' 
+                      ? 'bg-leaf-600 text-white' 
+                      : 'bg-white text-neutral-700 hover:bg-neutral-50'
+                  }`}
+                >
+                  <Grid2X2 size={16} />
+                </button>
+                <button
+                  onClick={() => setViewMode('3')}
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    viewMode === '3' 
+                      ? 'bg-leaf-600 text-white' 
+                      : 'bg-white text-neutral-700 hover:bg-neutral-50'
+                  }`}
+                >
+                  <Grid3X3 size={16} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       
-      <div className={`grid gap-6 ${
-        viewMode === '3' 
-          ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' 
-          : 'grid-cols-1 lg:grid-cols-2'
-      }`}>
-        {filtered.map(b => <BusinessCard key={b.id} b={b} onViewDetails={() => openRestaurantDetail(b.id)} />)}
-      </div>
+      {/* Content Area - List or Map */}
+      {displayMode === 'list' ? (
+        <div className={`grid gap-6 ${
+          viewMode === '3' 
+            ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' 
+            : 'grid-cols-1 lg:grid-cols-2'
+        }`}>
+          {filtered.map(b => <BusinessCard key={b.id} b={b} onViewDetails={() => openRestaurantDetail(b.id)} />)}
+        </div>
+      ) : (
+        <div className="h-[600px] relative">
+          <MapView 
+            businesses={filtered} 
+            onBusinessSelect={(business) => openRestaurantDetail(business.id)}
+            selectedBusiness={selectedBusiness}
+          />
+        </div>
+      )}
       
       <div className="mt-8 text-sm text-neutral-500 space-y-2">
         <div>

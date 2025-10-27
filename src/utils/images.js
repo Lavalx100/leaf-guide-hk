@@ -9,7 +9,7 @@ export const BUSINESS_IMAGES = {
   'amber-restaurant': 'https://assets-us-01.kc-usercontent.com/9e9a95c0-1d15-00d5-e878-50f070203f13/0c289ca9-3bec-4a6a-aa95-c6df3c5df3a4/amber-slider-1.jpg',
   'roganic-restaurant': 'https://sr-images.eu-central-1.linodeobjects.com/Roganic-HK/20250214-Roganic_020.jpg',
   'mono-restaurant': 'https://images.squarespace-cdn.com/content/v1/63d223fd0cb2274e46becec1/5e0b2258-08c4-41c1-991a-2002d7dc06c6/Mono+Chef+Counter.JPG',
-  'baker-bottleman': 'https://media-cdn.tripadvisor.com/media/photo-s/0e/cc/0f/75/storefront.jpg'
+  'baker-bottleman': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop'
 };
 
 export const getBusinessImage = (businessId) => {
