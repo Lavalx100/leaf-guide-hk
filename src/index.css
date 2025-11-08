@@ -81,6 +81,32 @@
   border: none;
 }
 
+.water-fountain-marker,
+.recycling-marker {
+  background: transparent;
+  border: none;
+}
+
+.water-cluster-icon,
+.recycling-cluster-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Smooth cluster animations */
+.marker-cluster {
+  transition: all 0.3s ease;
+}
+
+.marker-cluster:hover {
+  transform: scale(1.1);
+}
+
+/* Spiderfy animations */
+.marker-cluster-spiderfy {
+  transition: all 0.3s ease;
+}
+
 .custom-popup .leaflet-popup-close-button {
   font-size: 24px;
   padding: 4px 8px;
