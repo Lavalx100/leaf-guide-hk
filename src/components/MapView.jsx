@@ -87,7 +87,7 @@ const createWaterFountainIcon = () => {
         align-items: center;
         justify-content: center;
       ">
-        <img src="/src/assets/Symbols/water.png" alt="Water" style="width: 10px; height: 10px; filter: brightness(0) invert(1);" />
+        <img src="https://i.ibb.co/ch5C9yWT/water.png" alt="Water" style="width: 10px; height: 10px; filter: brightness(0) invert(1);" />
       </div>
     `,
     iconSize: [16, 16],
@@ -112,7 +112,7 @@ const createRecyclingIcon = () => {
         align-items: center;
         justify-content: center;
       ">
-        <img src="/src/assets/Symbols/recycle.png" alt="Recycle" style="width: 10px; height: 10px; filter: brightness(0) invert(1);" />
+        <img src="https://i.ibb.co/kVp86RZ3/recycle.png" alt="Recycle" style="width: 10px; height: 10px; filter: brightness(0) invert(1);" />
       </div>
     `,
     iconSize: [16, 16],
@@ -456,7 +456,7 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
             }`}
           >
             <div className="w-4 h-4 rounded-full bg-[#3b82f6] border-2 border-white flex items-center justify-center">
-              <img src="/src/assets/Symbols/water.png" alt="Water" className="w-2.5 h-2.5 brightness-0 invert" />
+              <img src="https://i.ibb.co/ch5C9yWT/water.png" alt="Water" className="w-2.5 h-2.5 brightness-0 invert" />
             </div>
             <span className="text-xs text-gray-600">Water Fountain</span>
           </button>
@@ -468,7 +468,7 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
             }`}
           >
             <div className="w-4 h-4 rounded-full bg-[#22c55e] border-2 border-white flex items-center justify-center">
-              <img src="/src/assets/Symbols/recycle.png" alt="Recycle" className="w-2.5 h-2.5 brightness-0 invert" />
+              <img src="https://i.ibb.co/kVp86RZ3/recycle.png" alt="Recycle" className="w-2.5 h-2.5 brightness-0 invert" />
             </div>
             <span className="text-xs text-gray-600">Recycling Point</span>
           </button>
