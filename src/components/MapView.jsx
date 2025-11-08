@@ -216,12 +216,21 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
     visibleCategories[business.sector]
   );
 
+  // Hong Kong bounds to restrict map view
+  const HK_BOUNDS = [
+    [22.15, 113.82],  // Southwest coordinates
+    [22.58, 114.45]   // Northeast coordinates
+  ];
+
   return (
     <div className="h-full w-full relative">
       <MapContainer
         center={[HK_MAP_CENTER.lat, HK_MAP_CENTER.lng]}
         zoom={HK_MAP_CENTER.zoom}
         maxZoom={19}
+        minZoom={10}
+        maxBounds={HK_BOUNDS}
+        maxBoundsViscosity={1.0}
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom={true}
       >
