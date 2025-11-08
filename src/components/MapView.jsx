@@ -203,6 +203,9 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
     recycling: true
   });
 
+  // State to track whether to show private recycling locations (off by default)
+  const [showPrivateRecycling, setShowPrivateRecycling] = useState(false);
+
   // Toggle category visibility
   const toggleCategory = (category) => {
     setVisibleCategories(prev => ({
@@ -215,6 +218,15 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
   const filteredBusinesses = businesses.filter(business => 
     visibleCategories[business.sector]
   );
+
+  // Filter recycling locations based on private/public setting
+  const filteredRecyclingLocations = RECYCLING_LOCATIONS.filter(location => {
+    if (showPrivateRecycling) {
+      return true; // Show all recycling locations
+    }
+    // Only show public recycling locations (exclude private ones)
+    return !location.collectionPointType?.includes('Private');
+  });
 
   // Hong Kong bounds to restrict map view
   const HK_BOUNDS = [
@@ -366,7 +378,7 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
             showCoverageOnHover={false}
             zoomToBoundsOnClick={true}
           >
-            {RECYCLING_LOCATIONS.map((location, index) => (
+            {filteredRecyclingLocations.map((location, index) => (
             <Marker
               key={`recycling-${index}`}
               position={[location.lat, location.lng]}
@@ -481,6 +493,25 @@ const MapView = ({ businesses, onBusinessSelect, selectedBusiness }) => {
             </div>
             <span className="text-xs text-gray-600">Recycling Point</span>
           </button>
+
+          {/* Private Recycling Toggle - Only shown when recycling is visible */}
+          {visibleCategories.recycling && (
+            <button
+              onClick={() => setShowPrivateRecycling(!showPrivateRecycling)}
+              className={`flex items-center gap-2 w-full text-left transition-all hover:bg-gray-50 p-1 rounded ml-6 text-xs ${
+                showPrivateRecycling ? 'opacity-100 text-green-700' : 'opacity-60 text-gray-500'
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={showPrivateRecycling}
+                onChange={() => setShowPrivateRecycling(!showPrivateRecycling)}
+                className="w-3 h-3 text-green-600 rounded focus:ring-green-500"
+                onClick={(e) => e.stopPropagation()}
+              />
+              <span>Include Private Recycling</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
