@@ -12,7 +12,6 @@
 - [Key Features](#key-features)
 - [Data Sources](#data-sources)
 - [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -232,11 +231,6 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - Mobile responsive design
 - Touch-friendly map controls
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
