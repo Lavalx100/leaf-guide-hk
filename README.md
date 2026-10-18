@@ -2,6 +2,8 @@
 
 **A comprehensive sustainability guide for Hong Kong** — helping residents and visitors discover eco-friendly businesses, recycling locations, and water fountains across the city.
 
+![Leaf Guide HK directory with venue filters and sustainability ratings](./docs/screenshots/leaf-guide-hk-home.jpg)
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
@@ -20,26 +22,26 @@
 Leaf Guide HK is a React-based web application that promotes sustainable living in Hong Kong by providing:
 
 - **Sustainability ratings** for hospitality businesses (hotels, restaurants, cafes, bakeries)
-- **Interactive map** with 9,100+ recycling locations across Hong Kong
-- **550+ water fountain locations** for refilling reusable bottles
+- **Interactive map** with 9,118 recycling locations across Hong Kong
+- **426 water fountain locations** for refilling reusable bottles
 - **Filterable directory** to find eco-friendly businesses
 - **Itinerary planner** for sustainable tourism
 
-The platform uses a proprietary **Leaf Rating System** (1-3 leaves) based on 10 sustainability criteria including governance, energy, waste management, and community impact.
+The platform uses a **Leaf Rating System** (1-3 leaves) based on ten sustainability criteria, including governance, energy, waste management, and community impact.
 
 ---
 
 ## ✨ Features
 
 ### 🏢 Business Directory
-- Browse 70+ rated sustainable businesses
+- Browse 10 rated sustainable businesses
 - Filter by sector (Hotel, Restaurant, Bakery, Cafe)
 - Sort by sustainability score or leaf rating
 - Detailed sustainability breakdowns with evidence
 
 ### 🗺️ Interactive Map
-- **9,100+ recycling locations** (public and private)
-- **550+ water fountains** across all districts
+- **9,118 recycling locations** (public and private)
+- **426 water fountains** across Hong Kong
 - **Marker clustering** for performance with large datasets
 - **Category filters** to show/hide different location types
 - **Private recycling toggle** to include residential locations
@@ -80,16 +82,16 @@ The platform uses a proprietary **Leaf Rating System** (1-3 leaves) based on 10 
 - **clsx** - Conditional className utility
 
 ### Data
-- **9,100+ recycling locations** (deduplicated from 17,000+ entries)
-- **550+ water fountains** across Hong Kong
-- **70+ sustainability-rated businesses**
+- **9,118 recycling locations** in the bundled location file
+- **426 water fountains** in the bundled fountain file
+- **10 sustainability-rated businesses** in the current directory
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 16+ and npm
+- Node.js 22.13+ and npm
 
 ### Installation
 
@@ -106,6 +108,16 @@ npm run dev
 ```
 
 Open your browser to the local URL shown (typically `http://localhost:5173`)
+
+### Quality checks
+
+Run the same checks used by the GitHub Actions workflow:
+
+```bash
+npm test
+npm run lint
+npm run build
+```
 
 ### Build for Production
 
@@ -127,8 +139,8 @@ leaf-guide-hk/
 │   │   ├── Filters.jsx     # Filter controls
 │   │   └── ...             # See src/components/README.md
 │   ├── data/               # Data files
-│   │   ├── recyclingLocations.js  # 9,100+ recycling points
-│   │   ├── waterFountains.js      # 550+ water fountains
+│   │   ├── recyclingLocations.js  # 9,118 recycling points
+│   │   ├── waterFountains.js      # 426 water fountains
 │   │   └── README.md
 │   ├── utils/              # Utility functions
 │   │   ├── locations.js    # Location helpers
@@ -155,20 +167,20 @@ leaf-guide-hk/
 
 Businesses are evaluated across **10 criteria** (100 points total):
 
-1. **Governance & Public Targets** (10pts)
-2. **Legal Readiness & Risk** (10pts)
-3. **Energy & Carbon** (10pts)
-4. **Water Stewardship** (10pts)
-5. **Waste & Circular Economy** (10pts)
-6. **Biodiversity & Nature** (10pts)
-7. **Supply Chain & Sourcing** (10pts)
-8. **Menu & Products** (10pts)
-9. **Stakeholder Engagement** (10pts)
-10. **Community & Regional Impact** (10pts)
+1. **Governance & public targets** (10 points)
+2. **Legal readiness & risk** (10 points)
+3. **Energy & carbon** (10 points)
+4. **Water stewardship** (10 points)
+5. **Waste & circularity** (10 points)
+6. **Food & beverage sustainability** (10 points)
+7. **Responsible sourcing & materials** (10 points)
+8. **Community & biodiversity** (10 points)
+9. **Guest engagement & transparency** (10 points)
+10. **Recognition & certification** (10 points)
 
 **Leaf Ratings:**
-- 🌿 **1 Leaf**: 40-59 points (Emerging sustainability)
-- 🌿🌿 **2 Leaves**: 60-79 points (Good sustainability practices)
+- 🌿 **1 Leaf**: 50-64 points (Foundational practices)
+- 🌿🌿 **2 Leaves**: 65-79 points (Strong documented practices)
 - 🌿🌿🌿 **3 Leaves**: 80-100 points (Excellent sustainability leadership)
 
 ### Map Controls
@@ -183,21 +195,21 @@ Businesses are evaluated across **10 criteria** (100 points total):
 ## 📊 Data Sources
 
 ### Recycling Locations
-- **Total**: 9,100+ unique locations
+- **Total**: 9,118 bundled locations
 - **Source**: Hong Kong Environmental Protection Department
 - **Types**: Public bins, private collection points, NGO centers
 - **Materials**: Paper, plastics, metals, glass, e-waste, food waste
 - **Last Updated**: November 2025
 
 ### Water Fountains
-- **Total**: 550+ locations
+- **Total**: 426 bundled locations
 - **Coverage**: All 18 districts of Hong Kong
 - **Types**: Public parks, government buildings, MTR stations
 
 ### Business Data
 - **Manually curated** sustainability assessments
 - **Evidence-based** scoring with source links
-- **Updated quarterly** with new businesses
+- Ten venues are currently included; assessments link to their published evidence sources.
 
 ---
 
